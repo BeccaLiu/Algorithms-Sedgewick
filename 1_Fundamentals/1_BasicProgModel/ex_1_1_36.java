@@ -14,13 +14,13 @@ public class ex_1_1_36 {
             initial(arr);
             StdRandom.shuffle(arr);
             for (int j = 0; j < arr.length; j++) {
-                rt[j][arr[j]]++;
+                rt[arr[j]][j]++;
             }
         }
 
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < M; j++) {
-                StdOut.printf("%3d", rt[i][j]);
+                StdOut.printf("%7d", rt[i][j]);
             }
             StdOut.println();
         }
