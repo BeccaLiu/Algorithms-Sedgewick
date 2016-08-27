@@ -33,4 +33,8 @@ public class ex_1_2_6 {
         }
         return matched;
     }
+
+    public static boolean circularRotation(String a, String b) {
+        return (a + a).contains(b);
+    }
 }
