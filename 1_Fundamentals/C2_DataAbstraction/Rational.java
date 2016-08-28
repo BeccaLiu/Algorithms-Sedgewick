@@ -9,8 +9,8 @@ import java.util.Comparator;
  */
 public class Rational implements Comparator<Rational> {
     public static final Rational ZERO = new Rational(0, 1);
-    public final long numerator;
-    public final long denominator;
+    private final long numerator;
+    private final long denominator;
 
     public Rational(long numerator, long denominator) {
         if (denominator == 0)
@@ -19,13 +19,18 @@ public class Rational implements Comparator<Rational> {
             denominator = -denominator;
             numerator = -numerator;
         }
-        long g = gcd(numerator, denominator);
-        this.numerator = numerator / g;
-        this.denominator = denominator / g;
+        if (numerator == 0) {
+            this.numerator = 0;
+            this.denominator = 1;
+        } else {
+            long g = gcd(numerator, denominator);
+            this.numerator = numerator / g;
+            this.denominator = denominator / g;
+        }
     }
 
     public static void main(String[] args) {
-        Rational a = new Rational(3, 8);
+        Rational a = new Rational(5, 12);
         Rational b = new Rational(5, 8);
         Rational c = new Rational(0, 1);
         StdOut.println(a.plus(b));
@@ -35,36 +40,51 @@ public class Rational implements Comparator<Rational> {
     }
 
     public Rational plus(Rational b) {
-        long den = this.denominator * b.denominator;
-        long num = this.numerator * b.denominator + this.denominator * b.numerator;
-        long g = gcd(num, den);
-        return new Rational(num / g, den / g);
+        if (compare(this, ZERO) == 0)
+            return b;
+        if (compare(b, ZERO) == 0)
+            return this;
+        long g = gcd(this.denominator, b.denominator);
+        long f = gcd(this.numerator, b.numerator);
+        long den = this.denominator / g * b.denominator / g;
+        long num = this.numerator / f * b.denominator / g + this.denominator / g * b.numerator / f;
+
+        return new Rational(num * f, den * g);
     }
 
     public Rational minus(Rational b) {
-        long den = this.denominator * b.denominator;
-        long num = this.numerator * b.denominator - this.denominator * b.numerator;
-        long g = gcd(num, den);
-        return new Rational(num / g, den / g);
+        if (compare(this, ZERO) == 0)
+            return new Rational(-b.numerator, b.denominator);
+        if (compare(b, ZERO) == 0)
+            return this;
+
+        long g = gcd(this.denominator, b.denominator);
+        long f = gcd(this.numerator, b.numerator);
+        long den = this.denominator / g * b.denominator / g;
+        long num = this.numerator / f * b.denominator / g - this.denominator / g * b.numerator / f;
+
+        return new Rational(num * f, den * g);
     }
 
     public Rational times(Rational b) {
         if (compare(this, ZERO) == 0 || compare(b, ZERO) == 0)
             return ZERO;
-        long den = this.denominator * b.denominator;
-        long num = this.numerator * b.numerator;
-        long g = gcd(num, den);
-        return new Rational(num / g, den / g);
+//        long den = this.denominator * b.denominator;
+//        long num = this.numerator * b.numerator;
+//        long g = gcd(num, den);
+        long g = gcd(this.numerator, b.denominator);
+        long f = gcd(this.denominator, b.numerator);
+        long den = (this.denominator / f) * (b.denominator / g);
+        long num = (this.numerator / g) * (b.numerator / f);
+        return new Rational(num, den);
 
     }
 
     public Rational divides(Rational b) {
         if (compare(this, ZERO) == 0)
             return ZERO;
-        long den = this.denominator * b.numerator;
-        long num = this.numerator * b.denominator;
-        long g = gcd(num, den);
-        return new Rational(num / g, den / g);
+        Rational bR = new Rational(b.denominator, b.denominator);
+        return this.times(bR);
     }
 
     public boolean equals(Rational that) {
