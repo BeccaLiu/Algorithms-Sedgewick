@@ -1,4 +1,4 @@
-package C2_DataAbstraction;
+package P2_DataAbstraction;
 
 import edu.princeton.cs.algs4.Date;
 

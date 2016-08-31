@@ -1,4 +1,4 @@
-package C3_BagQueueStack;
+package P3_BagQueueStack;
 
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
