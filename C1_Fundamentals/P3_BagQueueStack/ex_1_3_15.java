@@ -15,8 +15,9 @@ public class ex_1_3_15 {
             q.enqueue(StdIn.readString());
         }
         int count = 0;
+        int index = q.size() - k;
         while (true) {
-            if (count == q.size() - k) {
+            if (count == index) {
                 StdOut.print(q.dequeue());
                 break;
             }
