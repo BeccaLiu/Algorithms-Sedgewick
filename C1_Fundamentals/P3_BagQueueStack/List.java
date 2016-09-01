@@ -1,5 +1,8 @@
 package P3_BagQueueStack;
 
+import edu.princeton.cs.algs4.StdOut;
+
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -17,38 +20,29 @@ public class List<Item> implements Iterable<Item> {
     }
 
     public List(Item[] a) {
-        first = new Node(a[0]);
-        last = first;
-
-        for (int i = 1; i < a.length; i++) {
-            Node curr = new Node(a[i]);
-            last.next = curr;
-            last = curr;
-        }
+        for (Item item : a)
+            addLast(item);
     }
 
     public List(Iterable<Item> coll) {
         int i = 0;
-        coll.forEach(curr -> {
-            Node n = new Node(curr);
-            if (i == 0) {
-                first = n;
-                last = first;
-            } else {
-                last.next = n;
-                last = n;
-            }
-        });
+        for (Item item : coll) {
+            addLast(item);
+        }
     }
 
     public static void main(String[] args) {
-
+        Integer[] arr = {99, 5};
+        List<Integer> l = new List<Integer>(Arrays.asList(arr));
+        l.addLast(3);
+        l.addLast(4);
+        StdOut.println(l.size() + ":" + l);
     }
 
     public String toString() {
         Node curr = first;
         StringBuffer sb = new StringBuffer();
-        while (curr.next != null) {
+        while (curr != null) {
             sb.append(curr.item).append(" ");
             curr = curr.next;
         }
@@ -68,7 +62,7 @@ public class List<Item> implements Iterable<Item> {
     }
 
     public boolean isEmpty() {
-        return first == null;
+        return N == 0;
     }
 
     public int size() {
@@ -81,16 +75,20 @@ public class List<Item> implements Iterable<Item> {
 
     public void addFirst(Item item) {
         Node n = new Node(item);
-        n.next = first;
-        first = n;
+        if (isEmpty()) {
+            first = last = n;
+        } else {
+            n.next = first;
+            first = n;
+        }
         N++;
     }
 
-    public void add(Item item) {
+    public void addLast(Item item) {
         Node n = new Node(item);
-        if (last == null)
-            last = n;
-        else {
+        if (isEmpty()) {
+            first = last = n;
+        } else {
             last.next = n;
             last = n;
         }
@@ -103,7 +101,7 @@ public class List<Item> implements Iterable<Item> {
         Item item = first.item;
         first = first.next;
         N--;
-        if (isEmpty()) last = null;
+        if (isEmpty()) first = last = null;
         return item;
     }
 
@@ -112,7 +110,6 @@ public class List<Item> implements Iterable<Item> {
         if (isEmpty()) throw new NoSuchElementException();
         if (last == first)
             return removeFirst();
-
         Node curr = first;
         while (curr.next != last) {
             curr = curr.next;
@@ -124,11 +121,16 @@ public class List<Item> implements Iterable<Item> {
         return item;
     }
 
+    private boolean isElementIndex(int index) {
+        return index >= 0 && index < N;
+    }
+
     /* Exercise 1.3.20 */
-    public Item deleteKth(int k) {
+    public Item delete(int k) {
+        if (!isElementIndex(k - 1)) return null;
         if (isEmpty()) throw new NoSuchElementException();
 
-        Node prev = null;
+        Node prev = new Node();
         prev.next = first;
         Node curr = first;
 
@@ -156,7 +158,7 @@ public class List<Item> implements Iterable<Item> {
     /* Exercise 1.3.21*/
     public boolean find(Item item) {
         Node curr = first;
-        while (curr.next != null) {
+        while (curr != null) {
             if (curr.item.equals(item))
                 return true;
             curr = curr.next;
@@ -254,11 +256,11 @@ public class List<Item> implements Iterable<Item> {
         first = head;
     }
 
-    public Node reverse_Rec(Node first) {
+    public Node reverseRec(Node first) {
         if (first == null) return null;
         if (first.next == null) return first;
         Node second = first.next;
-        Node rest = reverse_Rec(second);
+        Node rest = reverseRec(second);
         second.next = first;
         first.next = null;
         return rest;
@@ -267,6 +269,9 @@ public class List<Item> implements Iterable<Item> {
     private class Node {
         Item item;
         Node next;
+
+        Node() {
+        }
 
         Node(Item i) {
             item = i;
