@@ -8,7 +8,15 @@ import java.util.NoSuchElementException;
 /**
  * Created by rliu on 9/1/16.
  */
-public class ex_1_3_29 {
+class CircularList<Item> implements Iterable<Item> {
+    Node last;
+    int N;
+
+    public CircularList() {
+        last = null;
+        N = 0;
+    }
+
     public static void main(String[] args) {
         CircularList<Integer> cl = new CircularList<>();
         cl.enqueue(1);
@@ -18,16 +26,6 @@ public class ex_1_3_29 {
         cl.dequeue();
         cl.dequeue();
         StdOut.println(cl.size() + "/" + cl.toString());
-    }
-}
-
-class CircularList<Item> implements Iterable<Item> {
-    Node last;
-    int N;
-
-    public CircularList() {
-        last = null;
-        N = 0;
     }
 
     public int size() {
