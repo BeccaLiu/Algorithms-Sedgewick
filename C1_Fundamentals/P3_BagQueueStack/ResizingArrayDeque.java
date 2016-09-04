@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
  * pop:removeFirst
  * inject:addLast
  * eject:removeLast
+ * ex 1.3.33
  */
 public class ResizingArrayDeque<Item> implements Iterable<Item> {
     private Item[] arr;
@@ -40,13 +41,18 @@ public class ResizingArrayDeque<Item> implements Iterable<Item> {
         StdOut.println(deque.size() + "/" + deque);
         deque.popLeft();
         StdOut.println(deque.size() + "/" + deque);
+        deque.popLeft();
+        StdOut.println(deque.size() + "/" + deque);
+        deque.popLeft();
+        StdOut.println(deque.size() + "/" + deque);
         deque.popRight();
+        StdOut.println(deque.size() + "/" + deque);
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = first; i < first + size; i++) {
-            sb.append(arr[i]).append(" ");
+        for (int i = 1; i <= size; i++) {
+            sb.append(arr[(first + i) % arr.length]).append(" ");
         }
         return sb.toString();
     }
@@ -61,48 +67,46 @@ public class ResizingArrayDeque<Item> implements Iterable<Item> {
 
     private void resize(int length) {
         Item[] temp = (Item[]) new Object[length];
-        int index = (length - size) / 2;
-        for (int i = first; i <= last; i++) {
-            temp[index] = arr[i];
-            index++;
+        for (int i = 0; i < size; i++) {
+            temp[i] = arr[(i + first + 1) % arr.length];
         }
         arr = temp;
-        first = (length - size) / 2;
-        last = (length - size) / 2 + size;
-        StdOut.println(first + "f/l" + last + " in " + arr.length);
-
+        first = arr.length - 1;
+        last = size;
     }
 
     public void pushLeft(Item item) {
-        if (arr[0] != null)
+        if (size == arr.length)
             resize(arr.length * 2);
-        if (arr[first] == null) {
-            arr[first] = item;
-        } else {
-            arr[--first] = item;
-        }
+        arr[first--] = item;
+        if (first == -1)
+            first = arr.length - 1;
         size++;
     }
 
     public Item popLeft() {
         if (isEmpty())
             throw new NoSuchElementException();
-        Item item = arr[first++];
-        arr[first - 1] = null;
+        Item item = arr[first];
+        arr[first] = null;
+        first++;
         size--;
+        if (first == arr.length)
+            first = 0;
         if (size > 0 && size == arr.length / 4)
             resize(arr.length / 2);
         return item;
     }
 
     public void pushRight(Item item) {
-        if (arr[arr.length - 1] != null)
+        if (size == arr.length)
             resize(arr.length * 2);
-        if (arr[last] == null)
-            arr[last] = item;
-        else {
-            arr[++last] = item;
-        }
+        if (arr[last] != null)
+            arr[(++last) % arr.length] = item;
+        else
+            arr[last++] = item;
+        if (last == arr.length)
+            last = 0;
         size++;
     }
 
@@ -112,6 +116,8 @@ public class ResizingArrayDeque<Item> implements Iterable<Item> {
         Item item = arr[last--];
         arr[last + 1] = null;
         size--;
+        if (last == 0)
+            last = arr.length - 1;
         if (size > 0 && size == arr.length / 4)
             resize(arr.length / 2);
         return item;
@@ -122,10 +128,10 @@ public class ResizingArrayDeque<Item> implements Iterable<Item> {
     }
 
     private class dequeIterator implements Iterator<Item> {
-        private int index = 0;
+        private int index = first;
 
         public boolean hasNext() {
-            return index == size;
+            return index % arr.length == size;
         }
 
         public void remove() {
@@ -133,7 +139,7 @@ public class ResizingArrayDeque<Item> implements Iterable<Item> {
         }
 
         public Item next() {
-            Item item = arr[index];
+            Item item = arr[index % arr.length];
             index++;
             return item;
         }
