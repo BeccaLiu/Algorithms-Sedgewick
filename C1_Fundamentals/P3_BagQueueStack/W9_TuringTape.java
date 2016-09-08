@@ -13,6 +13,7 @@ public class W9_TuringTape {
     W9_TuringTape() {
         tapeLeft = new Stack<>();
         taperRight = new Stack<>();
+        activeCell = 0;
     }
 
     public void moveRight() {
