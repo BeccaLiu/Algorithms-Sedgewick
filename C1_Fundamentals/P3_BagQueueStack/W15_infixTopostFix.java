@@ -35,8 +35,7 @@ public class W15_infixTopostFix {
                 }
                 String op = operation.pop();
                 if (op.equals("(")) {
-                    String temp = vals.pop();
-                    vals.push("( " + temp + " )");
+                    assert (s.equals(")"));
                     break;
                 } else {
                     String val2 = vals.pop();
