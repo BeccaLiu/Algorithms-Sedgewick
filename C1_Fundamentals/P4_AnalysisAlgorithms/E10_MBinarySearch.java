@@ -19,11 +19,10 @@ public class E10_MBinarySearch {
             arr[i] = Integer.parseInt(s[i]);
         }
         Arrays.sort(arr);
-        int index = binarySearch(arr, target);
-        if (index == -1)
-            StdOut.println("No Found");
-        else
-            StdOut.println(index);
+        StdOut.println(binarySearch(arr, target));
+
+        int a[] = {1, 2, 2, 2, 2, 2, 2, 2, 3};
+        StdOut.println(binarySearch(a, 3));
 
 
     }
@@ -31,8 +30,8 @@ public class E10_MBinarySearch {
     public static int binarySearch(int[] arr, int target) {
         int low = 0;
         int high = arr.length - 1;
-        int index = -1;
-        while (low < high) {
+
+        while (low <= high) {
             int mid = low + (high - low) / 2;
             if (arr[mid] > target)
                 high = mid - 1;
@@ -41,10 +40,9 @@ public class E10_MBinarySearch {
             else {
                 while (arr[mid - 1] == target)
                     mid--;
-                index = mid;
-                break;
+                return mid;
             }
         }
-        return index;
+        return -1;
     }
 }
