@@ -38,7 +38,7 @@ public class E10_MBinarySearch {
             else if (arr[mid] < target)
                 low = mid + 1;
             else {
-                while (arr[mid - 1] == target)
+                while (mid > 0 && arr[mid - 1] == target)
                     mid--;
                 return mid;
             }
