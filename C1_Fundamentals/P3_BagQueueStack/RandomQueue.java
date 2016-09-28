@@ -24,17 +24,12 @@ public class RandomQueue<Item> implements Iterable<Item> {
 
     public static void main(String[] args) {
         RandomQueue<Integer> rd = new RandomQueue<>();
-        rd.enqueue(1);
-        rd.enqueue(2);
-        rd.enqueue(3);
-        rd.enqueue(4);
-        rd.enqueue(5);
-        rd.enqueue(6);
-        rd.enqueue(7);
+        for (int i = 0; i < 10; i++)
+            rd.enqueue(StdRandom.uniform(100));
         StdOut.println(rd);
-        StdOut.println(rd.sample());
+        StdOut.println(rd.dequeue());
         StdOut.println(rd);
-        StdOut.println(rd.sample());
+        StdOut.println(rd.dequeue());
         StdOut.println(rd);
         for (Integer i : rd) {
             StdOut.print(i + " ");
