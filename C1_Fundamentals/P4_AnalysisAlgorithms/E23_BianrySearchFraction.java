@@ -9,7 +9,7 @@ import edu.princeton.cs.algs4.StdRandom;
  * the problem is described vaguely
  * the question should be given a x between [0,1], find a p/q where (0<p<q<N) and the difference between x and p/q should not larger than 1/N^2
  */
-public class BianrySearchFraction {
+public class E23_BianrySearchFraction {
     public static void main(String[] args) {
         double x = 0.0625;
         int N = 100; //precision

@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.StdRandom;
 /**
  * Created by rliu on 9/29/16.
  */
-public class BitonicSearch {
+public class E20_BitonicSearch {
     public static void main(String[] args) {
         int size = 50;
         int[] a = generateRandomBitonicArray(size);
