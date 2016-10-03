@@ -23,8 +23,8 @@ public class E25_dropTwoEggs {
 
     public static int findF(boolean[] intactEggs) {
         int interval = (int) Math.floor(Math.sqrt(intactEggs.length));
-        int curr = interval - 1;
-        while (curr <= intactEggs.length)  //sqrt(N) times
+        int curr = interval;
+        while (curr < intactEggs.length)  //sqrt(N) times
             if (intactEggs[curr - 1] == true)
                 curr += interval;
             else
@@ -42,13 +42,11 @@ public class E25_dropTwoEggs {
         int interval = (int) Math.floor(Math.sqrt(2 * intactEggs.length));
         int curr = interval;
         while (curr < intactEggs.length)  //interval times
-            if (intactEggs[curr] == true) {
-                StdOut.println(curr);
+            if (intactEggs[curr - 1] == true)
                 curr += --interval;
-
-            } else
+            else
                 break;
-        curr = curr - interval + 1;
+        curr = curr - interval;
         for (int i = curr; i < intactEggs.length; i++) { //Sqrt(N) times
             if (intactEggs[i] == false)
                 return i;
