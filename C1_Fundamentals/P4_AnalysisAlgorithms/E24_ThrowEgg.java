@@ -17,7 +17,7 @@ public class E24_ThrowEgg {
                 exp[i] = true; //when egg is not break at floor i;
         }
         StdOut.println("O(N)" + findF(exp)); //know the F in O(N)time
-        StdOut.println("O(lgN)" + findFFaster(exp, 1, exp.length));
+        StdOut.println("O(lgN)" + findFFaster(exp, 0, exp.length - 1));
         StdOut.println("O(2lgF)" + findFFastest(exp));
     }
 
@@ -32,6 +32,8 @@ public class E24_ThrowEgg {
     }
 
     public static int findFFaster(boolean[] exp, int low, int high) { //O(logN)
+        if (exp[low] == false) //the egg will break at first floor where exp[0]=false, to eliminate the error check exp[mid-1] out of boundary
+            return low;
         if (low > high)
             return -1;
         int mid = low + (high - low) / 2;
