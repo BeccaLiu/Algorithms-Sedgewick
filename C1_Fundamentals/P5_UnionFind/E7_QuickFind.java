@@ -2,6 +2,7 @@ package P5_UnionFind;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.Stopwatch;
 
 import java.util.stream.IntStream;
 
@@ -23,9 +24,11 @@ public class E7_QuickFind {
         int[] x = new In("TestData/mediumUF.txt").readAllInts();
         int size = x[0];
         E7_QuickFind uf = new E7_QuickFind(size);
+        Stopwatch s = new Stopwatch();
         for (int i = 1; i < x.length; i += 2) {
             uf.union(x[i], x[i + 1]);
         }
+        StdOut.print(s.elapsedTime());
         //uf.union(11,1);
         StdOut.println(uf.count);
         StdOut.println(uf.connected(5, 1));
