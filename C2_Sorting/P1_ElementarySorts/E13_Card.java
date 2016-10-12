@@ -1,5 +1,6 @@
 package P1_ElementarySorts;
 
+import P3_BagQueueStack.Deque;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.util.ArrayList;
@@ -19,11 +20,44 @@ public class E13_Card {
                 cards.add(new Card(s, n));
 
         Collections.shuffle(cards);
+
+        //deckSort(cards.toArray(new Card[cards.size()]));
+        dequeueSort(cards.toArray(new Card[cards.size()]));
+    }
+
+    public static void dequeueSort(Card[] toSort) {//it is acutally bubble sort
+        Deque<Card> cards = new Deque<>();
+        int j = 0;
+        for (Card c : toSort) {
+            //if(j<5)
+            cards.pushRight(c);
+            //j++;
+        }
+        int count = 0;
+        while (count != cards.size() - 1) {
+            count = 0;
+            for (int i = 0; i < cards.size() - 1; i++) {
+                Card a = cards.popLeft();
+                Card b = cards.popLeft();
+                if (a.compareTo(b) < 0) {
+                    cards.pushLeft(b);
+                    cards.pushRight(a);
+                    count++;
+
+                } else {
+                    cards.pushLeft(a);
+                    cards.pushRight(b);
+                }
+            }
+            cards.pushRight(cards.popLeft());
+
+        }
         for (Card c : cards)
             StdOut.print(c + " ");
-        Card[] toSort = cards.toArray(new Card[cards.size()]);
-
         StdOut.println();
+    }
+
+    public static void deckSort(Card[] toSort) {
         for (int i = 1; i < toSort.length; i++) {
             for (int j = i; j > 0 && toSort[j].compareTo(toSort[j - 1]) < 0; j--) {
                 Card temp = toSort[j];
@@ -34,6 +68,7 @@ public class E13_Card {
 
         for (Card c : toSort)
             StdOut.print(c + " ");
+        StdOut.println();
 
     }
 
