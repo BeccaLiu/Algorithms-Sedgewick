@@ -5,7 +5,7 @@ import edu.princeton.cs.algs4.Date;
 /**
  * Created by rliu on 8/27/16.
  */
-public class Transaction {
+public class Transaction implements Comparable<Transaction> {
     private String who;
     private Date when;
     private double amount;
@@ -33,4 +33,10 @@ public class Transaction {
         return String.format("%-10s %10s %8.2f", who, when, amount);
     }
 
+    @Override
+    public int compareTo(Transaction o) {
+        if (this.amount > o.amount) return 1;
+        if (this.amount < o.amount) return -1;
+        else return 0;
+    }
 }
