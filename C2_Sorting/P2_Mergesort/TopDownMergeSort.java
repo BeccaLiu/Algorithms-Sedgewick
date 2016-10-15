@@ -14,12 +14,12 @@ public class TopDownMergeSort {
 
     public static void merge(Comparable[] a, int lo, int mid, int hi) {
         Comparable[] aux = new Comparable[a.length];
-        IntStream.range(0, aux.length).parallel().forEach(i -> {
+        IntStream.range(lo, hi + 1).parallel().forEach(i -> {
             aux[i] = a[i];
         });
         int i = lo;
         int j = mid + 1;
-        for (int k = lo; k < hi; k++) {
+        for (int k = lo; k <= hi; k++) {
             if (i > mid) a[k] = aux[j++];
             else if (j > hi) a[k] = aux[i++];
             else if (aux[i].compareTo(aux[j]) < 0) {
