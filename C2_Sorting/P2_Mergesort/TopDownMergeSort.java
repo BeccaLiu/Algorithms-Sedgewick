@@ -9,14 +9,11 @@ import java.util.stream.IntStream;
  * Created by rliu on 10/14/16.
  */
 public class TopDownMergeSort {
+    //private static Comparable[] aux;
     private TopDownMergeSort() {
     }
 
-    public static void merge(Comparable[] a, int lo, int mid, int hi) {
-        Comparable[] aux = new Comparable[a.length];
-        IntStream.range(lo, hi + 1).parallel().forEach(i -> {
-            aux[i] = a[i];
-        });
+    public static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) {
         int i = lo;
         int j = mid + 1;
         for (int k = lo; k <= hi; k++) {
@@ -34,7 +31,12 @@ public class TopDownMergeSort {
         int mid = lo + (hi - lo) / 2;
         sort(a, lo, mid);
         sort(a, mid + 1, hi);
-        merge(a, lo, mid, hi);
+        Comparable[] aux = new Comparable[a.length]; //remove aux as a static array
+        IntStream.range(lo, hi + 1).parallel().forEach(i -> {
+            aux[i] = a[i];
+        });
+        if (a[mid].compareTo(a[mid + 1]) > 0)//2.2.8 skip merge when a[mid]<=a[mid+1], as a is sorted.
+            merge(a, aux, lo, mid, hi);
     }
 
     public static void main(String[] args) {
