@@ -48,19 +48,14 @@ public class E12_SublinearMerge {
         }
         int j = 0;
         int k = mid + 1;
-        try {
-            for (int i = lo; i <= hi && j < aux.length; i++) {
-                if (k > hi)
-                    a[i] = aux[j++];
-                else if (aux[j].compareTo(a[k]) < 0)
-                    a[i] = aux[j++];
-                else
-                    a[i] = a[k++];
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            StdOut.println("j:" + j + " k:" + k);
+        for (int i = lo; i <= hi && j < aux.length; i++) {
+            if (k > hi)
+                a[i] = aux[j++];
+            else if (aux[j].compareTo(a[k]) < 0)
+                a[i] = aux[j++];
+            else
+                a[i] = a[k++];
         }
-
     }
 
     public static void blockSelectionSort(Comparable[] a, int size) {
