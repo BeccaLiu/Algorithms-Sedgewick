@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
  */
 public class QuickSort {
     public static int compares = 0;
+
     private QuickSort() {
     }
 
@@ -54,7 +55,7 @@ public class QuickSort {
 
     public static boolean less(Comparable a, Comparable b) {
         compares++;
-        return a.compareTo(b) < 0;
+        return a.compareTo(b) < 0; //can not be <=
     }
 
     public static void exch(Comparable[] a, int i, int j) {
@@ -85,22 +86,26 @@ public class QuickSort {
         }
 
         StdOut.println();
-
-
-        a[size - 1] = 5; //duplicate item will impact sorting performance
-        a[size - 2] = 5;
-        sort(a);
-
-        for (Comparable i : a) {
-            StdOut.print(i + " ");
-        }
-        StdOut.println();
-        int[] sizes = {100, 1000, 10000};
+        int[] sizes = {100, 100, 1000};
         for (int s : sizes) {
             Integer[] arr = new Integer[s];
             IntStream.range(0, s).parallel().forEach(i -> arr[i] = i);
             QuickSort.sort(arr);
-            StdOut.println(QuickSort.compares + "/" + 2 * s * Math.log(s)); //2.3.6 2NlnN average compares time
+            StdOut.println(QuickSort.compares + "/  " + 2 * s * Math.log(s)); //2.3.6 2NlnN average compares time
+        }
+
+        StdOut.println();
+
+        for (int s : sizes) {
+            Integer[] arr = new Integer[s];
+            IntStream.range(0, s).parallel().forEach(i -> { //duplicated element will impact the efficiency
+                if (i % 2 == 0)
+                    arr[i] = 0;
+                else
+                    arr[i] = 1;
+            });
+            QuickSort.sort(arr);
+            StdOut.println(QuickSort.compares + "/  " + 2 * s * Math.log(s));
         }
 
     }
