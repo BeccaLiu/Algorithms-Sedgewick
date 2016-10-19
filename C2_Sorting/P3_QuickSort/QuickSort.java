@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
  * Created by rliu on 10/17/16.
  */
 public class QuickSort {
+    public static int compares = 0;
     private QuickSort() {
     }
 
@@ -52,6 +53,7 @@ public class QuickSort {
     }
 
     public static boolean less(Comparable a, Comparable b) {
+        compares++;
         return a.compareTo(b) < 0;
     }
 
@@ -67,6 +69,10 @@ public class QuickSort {
             sb.append(i + " ");
         }
         return sb.toString();
+    }
+
+    public static int getCompares() {
+        return compares;
     }
 
     public static void main(String[] args) {
@@ -88,5 +94,14 @@ public class QuickSort {
         for (Comparable i : a) {
             StdOut.print(i + " ");
         }
+        StdOut.println();
+        int[] sizes = {100, 1000, 10000};
+        for (int s : sizes) {
+            Integer[] arr = new Integer[s];
+            IntStream.range(0, s).parallel().forEach(i -> arr[i] = i);
+            QuickSort.sort(arr);
+            StdOut.println(QuickSort.compares + "/" + 2 * s * Math.log(s)); //2.3.6 2NlnN average compares time
+        }
+
     }
 }
