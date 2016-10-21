@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
  * 6:   [lo/s/d/j][i][][][][][][][][][][][][hi]
  * 7:   [lo][][][][][][][][][][][][j][i/s/d/hi]
  */
-public class NutsAndBolts {
+public class E15_NutsAndBolts {
     public static void main(String[] args) {
         int N = 25;
         Nut[] nuts = new Nut[N];
