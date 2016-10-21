@@ -34,7 +34,7 @@ public class E17_Sentinel {
         int j = hi;
         int v = a[lo];
         while (true) {
-            while (a[++i] < v && a[i] < a[hi])
+            while (a[++i] < v)
                 continue;
             while (a[--j] > v)
                 continue;
