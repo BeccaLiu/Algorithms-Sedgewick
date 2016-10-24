@@ -91,6 +91,7 @@ public class MaxPQ<Key extends Comparable> implements Iterable<Key> {
         private MaxPQ<Key> copy;
 
         public heapIterator() {
+            copy = new MaxPQ<>();
             for (int i = 1; i < pq.length; i++) {
                 copy.insert((Key) pq[i]);
             }
