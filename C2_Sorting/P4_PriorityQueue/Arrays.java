@@ -40,4 +40,17 @@ public class Arrays {
         }
         return b;
     }
+
+    //2.4.15 isMaxHeap
+    public static boolean isMaxHeap(Comparable[] a, int N) {
+        int j = N / 2;
+        while (j >= 1) {
+            int child = j * 2;
+            if (child < N && less(a[child], a[child + 1])) child++;
+            if (a[j].compareTo(a[child]) < 0)
+                return false;
+            j--;
+        }
+        return true;
+    }
 }

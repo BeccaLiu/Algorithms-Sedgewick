@@ -41,6 +41,7 @@ public class MaxPQ<Key extends Comparable> implements Iterable<Key> {
         });
 
         StdOut.println("(" + pq.size() + " left on pq)");
+        StdOut.print(Arrays.isMaxHeap(pq.pq, pq.size()));
         StdOut.println(pq);
 
     }
