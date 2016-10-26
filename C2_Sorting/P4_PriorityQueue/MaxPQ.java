@@ -68,7 +68,7 @@ public class MaxPQ<Key extends Comparable> implements Iterable<Key> {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < pq.length && pq[i] != null; i++) {
+        for (int i = 1; i < N; i++) {
             sb.append(pq[i] + " ");
         }
         return sb.toString();
