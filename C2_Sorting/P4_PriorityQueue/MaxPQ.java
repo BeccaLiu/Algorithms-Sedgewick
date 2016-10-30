@@ -31,18 +31,22 @@ public class MaxPQ<Key extends Comparable> implements Iterable<Key> {
     }
 
     public static void main(String[] args) {
-        int size = 50;
+        int size = 25;
         MaxPQ<Integer> pq = new MaxPQ<Integer>();
         IntStream.range(0, size).forEach(i -> {
-            pq.insert(StdRandom.uniform(100));
+            int in = StdRandom.uniform(100);
+            StdOut.print(in + "/");
+            pq.insert(in);
+            StdOut.println(pq + " :size:" + pq.size());
             if (i % 5 == 0) {
-                StdOut.println(pq + " remove largest" + pq.delMax() + " ");
+                StdOut.println(" remove largest" + pq.delMax());
             }
         });
 
-        StdOut.println("(" + pq.size() + " left on pq)");
-        StdOut.print(Arrays.isMaxHeap(pq.pq, pq.size()));
-        StdOut.println(pq);
+        MaxPQ<Integer> pq2 = new MaxPQ<Integer>();
+
+        for (Integer i : pq)
+            StdOut.print(i + " ");
 
     }
 
@@ -63,15 +67,20 @@ public class MaxPQ<Key extends Comparable> implements Iterable<Key> {
         Key rt = pq[1];
         Arrays.exch(pq, 1, N--);
         Arrays.sink(pq, N, 1);
+        if (N > 0 && N == (pq.length - 1) / 4) pq = (Key[]) Arrays.resize(pq, pq.length / 2);
         return rt;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < N; i++) {
+        for (int i = 1; i <= N; i++) {
             sb.append(pq[i] + " ");
         }
         return sb.toString();
+    }
+
+    public int min() {
+        return 0;
     }
 
     public Iterator<Key> iterator() {
@@ -86,15 +95,15 @@ public class MaxPQ<Key extends Comparable> implements Iterable<Key> {
         return N;
     }
 
-    public class heapIterator<Key extends Comparable> implements Iterator<Key>
+    public class heapIterator implements Iterator<Key>
 
     {
         private MaxPQ<Key> copy;
 
         public heapIterator() {
             copy = new MaxPQ<>();
-            for (int i = 1; i < pq.length; i++) {
-                copy.insert((Key) pq[i]);
+            for (int i = 1; i <= N; i++) {
+                copy.insert(pq[i]);
             }
         }
 
