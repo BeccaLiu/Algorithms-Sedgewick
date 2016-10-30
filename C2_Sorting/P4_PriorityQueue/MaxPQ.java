@@ -13,6 +13,7 @@ import java.util.stream.IntStream;
 public class MaxPQ<Key extends Comparable> implements Iterable<Key> {
     Key[] pq;
     int N;
+    Key min = null;//update it every time when using insert
 
     public MaxPQ() {
         pq = (Key[]) new Comparable[2];
@@ -37,16 +38,13 @@ public class MaxPQ<Key extends Comparable> implements Iterable<Key> {
             int in = StdRandom.uniform(100);
             StdOut.print(in + "/");
             pq.insert(in);
-            StdOut.println(pq + " :size:" + pq.size());
+            StdOut.println(pq + " :min:" + pq.min());
             if (i % 5 == 0) {
                 StdOut.println(" remove largest" + pq.delMax());
             }
         });
 
-        MaxPQ<Integer> pq2 = new MaxPQ<Integer>();
-
-        for (Integer i : pq)
-            StdOut.print(i + " ");
+        StdOut.println("min" + pq.min());
 
     }
 
@@ -54,6 +52,8 @@ public class MaxPQ<Key extends Comparable> implements Iterable<Key> {
         if (N + 1 == pq.length)
             pq = (Key[]) Arrays.resize(pq, 2 * (N + 1));
         pq[++N] = k;
+        if (min == null || Arrays.less(k, min))
+            min = k;
         Arrays.swim(pq, N);
     }
 
@@ -79,8 +79,11 @@ public class MaxPQ<Key extends Comparable> implements Iterable<Key> {
         return sb.toString();
     }
 
-    public int min() {
-        return 0;
+    public Key min() {
+        if (!isEmpty())
+            return min;
+        else
+            return null;
     }
 
     public Iterator<Key> iterator() {
